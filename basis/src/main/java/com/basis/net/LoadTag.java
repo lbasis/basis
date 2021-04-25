@@ -31,7 +31,7 @@ public class LoadTag implements ILoadTag {
     }
 
     public LoadTag(Activity activity, String dialogMsg) {
-        dialog = new Dialog(activity, R.style.CustomProgressDialog);
+        dialog = new Dialog(activity, R.style.Basis_Style_WX_Dialog);
         View rootView = LayoutInflater.from(activity).inflate(R.layout.layout_load_dialog, null);
         progressBar = rootView.findViewById(R.id.prgressBar);
         progressBar.setStyle(Style.BallSpinFadeLoader);

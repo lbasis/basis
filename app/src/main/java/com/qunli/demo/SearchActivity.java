@@ -8,7 +8,7 @@ import android.view.View;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.basis.base.BaseActivity;
+import com.basis.ui.BaseActivity;
 import com.basis.widget.SearchEditText;
 import com.basis.widget.SearchLayout;
 import com.bcq.adapter.RefreshAdapter;

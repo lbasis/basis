@@ -2,7 +2,7 @@ package com.qunli.demo;
 
 import android.view.View;
 
-import com.basis.base.BaseActivity;
+import com.basis.ui.BaseActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.kit.UIKit;
 import com.kit.utils.KToast;

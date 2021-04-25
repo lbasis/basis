@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.bcq.adapter.RefreshAdapter;
 import com.bcq.adapter.SampleAdapter;
 import com.bcq.adapter.recycle.RcyHolder;
-import com.basis.base.BaseActivity;
+import com.basis.ui.BaseActivity;
 import com.bcq.refresh.progress.IndicatorView;
 import com.bcq.refresh.progress.Style;
 import com.bcq.refresh.XRecyclerView;

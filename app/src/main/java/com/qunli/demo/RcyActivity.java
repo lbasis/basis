@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.basis.base.BaseActivity;
+import com.basis.ui.BaseActivity;
 import com.basis.net.LoadTag;
 import com.bcq.adapter.SampleAdapter;
 import com.bcq.adapter.interfaces.IAdapte;

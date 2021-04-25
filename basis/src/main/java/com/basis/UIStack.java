@@ -1,4 +1,4 @@
-package com.basis.base;
+package com.basis;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -6,24 +6,31 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 
+import com.basis.ui.BaseActivity;
+import com.basis.ui.IBasis;
 import com.kit.utils.Logger;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
  * @Author: BaiCQ
  * @ClassName: UI实例栈 包含activity 和 fragment
  * @CreateDate: 2019/3/29 16:43
- * @Description: AppHelper
+ * @Description: UIStack
  */
 public class UIStack {
-    private final static String TAG = "AppHelper";
+    private final static String TAG = "UIStack";
     private final static UIStack instance = new UIStack();
+    private static ArrayList<String> actions = new ArrayList<String>(4);
     //全局广播
     private BroadcastReceiver bdReceiver;
+    private CustomerReceiver customerReceiver;
     private LinkedList<IBasis> iBases = new LinkedList<>();
 
-    private String[] actions = new String[]{ConnectivityManager.CONNECTIVITY_ACTION};
+    static {
+        actions.add(ConnectivityManager.CONNECTIVITY_ACTION);
+    }
 
     private UIStack() {
     }
@@ -32,7 +39,32 @@ public class UIStack {
         return instance;
     }
 
-    public void add(IBasis iBasis) {
+    /**
+     * 添加自定义全局广播
+     *
+     * @param cusActions 意图actions集合
+     * @param receiver   回调
+     */
+    public void setCustomerReceiver(String[] cusActions, CustomerReceiver receiver) {
+        if (null == cusActions || null == receiver) return;
+        customerReceiver = receiver;
+        boolean update = false;
+        for (String action : cusActions) {
+            if (!actions.contains(action)) {
+                actions.add(action);
+                update = true;
+            }
+        }
+        if (!update) return;
+        //actions 变更后，重新注册全局广播
+        if (null != bdReceiver) {
+            BroadcastUtil.unregisterReceiver(bdReceiver);
+        }
+        bdReceiver = new UIReceiver();
+        BroadcastUtil.registerReceiver(bdReceiver, actions);
+    }
+
+    public synchronized void add(IBasis iBasis) {
         iBases.add(iBasis);
         if (null == bdReceiver) {//说明释放啦
             bdReceiver = new UIReceiver();
@@ -41,7 +73,7 @@ public class UIStack {
         Logger.e(TAG, "add : size = " + iBases.size() + " ibase:" + iBasis.getClass().getSimpleName());
     }
 
-    public void remove(IBasis remove) {
+    public synchronized void remove(IBasis remove) {
         iBases.remove(remove);
         if (iBases.isEmpty()) {
             if (null != bdReceiver) {
@@ -52,7 +84,7 @@ public class UIStack {
         Logger.e(TAG, "remove : size = " + iBases.size() + " ibase:" + remove.getClass().getSimpleName());
     }
 
-    public BaseActivity getTopActivity() {
+    public Activity getTopActivity() {
         int len = iBases.size();
         for (int i = len - 1; i >= 0; i--) {
             IBasis base = iBases.get(i);
@@ -63,22 +95,23 @@ public class UIStack {
         return null;
     }
 
-    public boolean isTaskTop(BaseActivity activity) {
+    public boolean isTaskTop(Activity activity) {
+        if (null == activity) return false;
         int len = iBases.size();
-        BaseActivity baseActivity = null;
+        Activity top = null;
         for (int i = len - 1; i >= 0; i--) {
             IBasis base = iBases.get(i);
             if (base instanceof Activity) {
-                baseActivity = (BaseActivity) base;
+                top = (Activity) base;
                 break;
             }
         }
-        boolean isTaskTop = null != activity && activity == baseActivity;
+        boolean isTaskTop = null != top && top == activity;
         Logger.e(TAG, "isTaskTop:" + isTaskTop);
         return isTaskTop;
     }
 
-    public void exit() {
+    public synchronized void exit() {
         if (null != bdReceiver) {
             BroadcastUtil.unregisterReceiver(bdReceiver);
             bdReceiver = null;
@@ -101,6 +134,8 @@ public class UIStack {
             String action = intent.getAction();
             if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action)) {
                 instance.setResultForAll();
+            } else {
+                instance.onCustomerReceive(context, intent);
             }
         }
     }
@@ -113,16 +148,7 @@ public class UIStack {
         }
     }
 
-//    private void setResultForTop() {
-//        //遍历直到顶部的activity
-//        int len = iBases.size();
-//        for (int i = len - 1; i >= 0; i--) {
-//            IBase base = iBases.get(i);
-//            base.onNetChange();
-//            if (base instanceof Activity) {
-//                break;
-//            }
-//        }
-//    }
-
+    private void onCustomerReceive(Context context, Intent intent) {
+        if (null != customerReceiver) customerReceiver.onReceive(context, intent);
+    }
 }

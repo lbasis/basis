@@ -1,4 +1,4 @@
-package com.basis.base;
+package com.basis.ui;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,6 +8,7 @@ import android.view.View;
 import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.basis.UIStack;
 import com.basis.widget.ActionWrapBar;
 import com.basis.widget.interfaces.IWrapBar;
 import com.kit.UIKit;
@@ -17,7 +18,10 @@ import com.kit.utils.Logger;
  * @author: BaiCQ
  * @ClassName: BaseActivity
  * @date: 2018/8/17
- * @Description: 基类，AbsExitActivity的空实现
+ * @Description: 基于IBasis实现的UI组件基类
+ * 1.统一封装ActionBar
+ * 2.针对常用的api的封装，如：getView()
+ * 3.针对finish()相关的统一封装onBackCode()
  */
 public abstract class BaseActivity extends AppCompatActivity implements IBasis {
     protected final String TAG = this.getClass().getSimpleName();

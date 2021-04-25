@@ -1,4 +1,4 @@
-package com.basis.base;
+package com.basis;
 
 
 import android.content.BroadcastReceiver;
@@ -8,6 +8,8 @@ import android.content.IntentFilter;
 import com.kit.UIKit;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author: BaiCQ
@@ -22,7 +24,7 @@ public class BroadcastUtil {
      * @param receiver
      * @param actions
      */
-    public static void registerReceiver(BroadcastReceiver receiver, String[] actions) {
+    public static void registerReceiver(BroadcastReceiver receiver, ArrayList<String> actions) {
         if (null == receiver) return;
         UIKit.getContext().registerReceiver(receiver, buildFilter(actions));
     }
@@ -91,9 +93,9 @@ public class BroadcastUtil {
      * @param actions
      * @return
      */
-    private static IntentFilter buildFilter(String[] actions) {
+    private static IntentFilter buildFilter(ArrayList<String> actions) {
         IntentFilter filter = new IntentFilter();
-        if (null != actions && actions.length > 0) {
+        if (null != actions && actions.size() > 0) {
             for (String action : actions) {
                 filter.addAction(action);
             }

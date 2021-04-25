@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.basis.R;
-import com.basis.base.BaseActivity;
+import com.basis.ui.BaseActivity;
 import com.basis.widget.interfaces.IWrapBar;
 import com.kit.utils.Logger;
 

@@ -3,9 +3,11 @@ package com.qunli.demo;
 import android.net.Uri;
 import android.view.View;
 
+import com.basis.BroadcastUtil;
 import com.basis.PreviewActivity;
-import com.basis.base.BaseActivity;
+import com.basis.ui.BaseActivity;
 import com.basis.widget.ActionWrapBar;
+import com.basis.widget.BottomDialog;
 import com.basis.widget.WXDialog;
 import com.kit.CommUtil;
 import com.kit.UIKit;
@@ -64,6 +66,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             new WXDialog(activity)
                                     .setMessage("删除风格！")
                                     .deleteStyle(true, null).show();
+                            new BottomDialog(activity)
+                                    .setContentView(R.layout.layout_bottom_menu,40)
+                                    .show();
                         } else if (1 == position) {
 
                         }
@@ -81,7 +86,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         int id = v.getId();
         switch (id) {
             case R.id.indicator:
-                UIKit.startActivity(activity, IndicatorActivity.class);
+                BroadcastUtil.sendBroadcast(BApplication.CUS_ACTION,"什么情况");
+//                UIKit.startActivity(activity, IndicatorActivity.class);
                 break;
             case R.id.recycle:
                 UIKit.startActivity(activity, RcyActivity.class);

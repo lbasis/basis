@@ -1,4 +1,4 @@
-package com.basis.base;
+package com.basis.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.basis.UIStack;
 import com.kit.utils.Logger;
 
 /**
@@ -71,17 +72,15 @@ public abstract class BaseFragment extends Fragment implements IBasis {
 
     /**
      * 首次刷新尽量先于init执行
-     *
-     * @param obj
      */
     @Override
     public void onRefresh(Object obj) {
         Logger.e(TAG, "onRefresh");
     }
 
-
     @Override
     public void onNetChange() {
+        Logger.e(TAG, "onRefresh");
     }
 
     public boolean isInit() {

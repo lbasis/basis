@@ -6,12 +6,11 @@ import android.widget.ImageView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.basis.base.BaseActivity;
+import com.basis.ui.BaseActivity;
 import com.basis.net.LoadTag;
 import com.bcq.adapter.SampleAdapter;
 import com.bcq.adapter.interfaces.IAdapte;
 import com.bcq.adapter.listview.LvHolder;
-import com.bcq.adapter.recycle.RcyHolder;
 import com.bcq.net.Request;
 import com.bcq.net.api.Method;
 import com.bcq.net.net.ListCallback;

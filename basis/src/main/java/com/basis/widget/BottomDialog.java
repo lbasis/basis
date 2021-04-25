@@ -25,7 +25,7 @@ public class BottomDialog {
 
     public BottomDialog(Activity activity) {
         mActivity = activity;
-        mDialog = new Dialog(mActivity, R.style.transparentFrameWindowStyle);
+        mDialog = new Dialog(mActivity, R.style.Basis_Style_Bottom_Menu);
     }
 
     public BottomDialog(Activity activity, @LayoutRes int res) {
@@ -39,17 +39,12 @@ public class BottomDialog {
      * @param res     布局文件
      * @param percent 百分比
      */
-    public void setContentView(@LayoutRes int res, int percent) {
-        if (null == mDialog) {
-            return;
-        }
+    public BottomDialog setContentView(@LayoutRes int res, int percent) {
         contentView = mActivity.getLayoutInflater().inflate(res, null);
         mDialog.setContentView(contentView, new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         Window window = mDialog.getWindow();
         window.getDecorView().setPadding(0, 0, 0, 0);
-        // 设置显示动画
-        window.setWindowAnimations(R.style.bottom_menu_windown_animstyle);
-        // 设置窗口大小和位�?
+        // 设置窗口大小和位置
         WindowManager.LayoutParams wl = window.getAttributes();
         wl.x = 0;
         wl.y = ScreenUtil.getScreenPoint().y;
@@ -77,7 +72,7 @@ public class BottomDialog {
                 return false;
             }
         });
-
+        return this;
     }
 
     public View getContentView() {

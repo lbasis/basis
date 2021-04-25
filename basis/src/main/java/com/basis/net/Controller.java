@@ -5,6 +5,7 @@ import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.basis.BasisHelper;
 import com.bcq.adapter.interfaces.DataObserver;
 import com.bcq.adapter.interfaces.IAdapte;
 import com.bcq.adapter.interfaces.IHolder;
@@ -28,8 +29,6 @@ import java.util.List;
  */
 public class Controller<ND, AD, VH extends IHolder> extends NetRefresher<ND> implements DataObserver {
     private final String TAG = "Controller";
-    //全局分页信息
-    private final static Page page = new DefauPage();
     private IOperator<ND, AD, VH> operator;
     //适配器使用功能集合 泛型不能使用 T 接口返回类型有可能和适配器使用的不一致
     private List<AD> adapterList = new ArrayList<>();
@@ -41,6 +40,10 @@ public class Controller<ND, AD, VH extends IHolder> extends NetRefresher<ND> imp
     }
 
     public Controller(VHolder holder, Class<ND> tclazz, IOperator<ND, AD, VH> operator) {
+       this(holder,tclazz,operator,BasisHelper.getPage());
+    }
+
+    public Controller(VHolder holder, Class<ND> tclazz, IOperator<ND, AD, VH> operator,Page page) {
         super(tclazz, page, operator);
         this.holder = holder;
         this.operator = operator;

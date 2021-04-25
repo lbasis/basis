@@ -7,8 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.basis.PreviewActivity;
-import com.basis.base.ListActivity;
-import com.basis.base.ListFragment;
+import com.basis.ui.ListFragment;
 import com.bcq.adapter.SampleAdapter;
 import com.bcq.adapter.interfaces.IAdapte;
 import com.bcq.adapter.recycle.RcyHolder;

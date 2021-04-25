@@ -2,7 +2,7 @@ package com.qunli.demo;
 
 import android.view.View;
 
-import com.basis.base.BaseActivity;
+import com.basis.ui.BaseActivity;
 import com.basis.net.LoadTag;
 import com.basis.widget.WXDialog;
 import com.bcq.net.wrapper.Wrapper;

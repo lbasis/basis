@@ -3,7 +3,7 @@ package com.qunli.demo;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.basis.base.BaseActivity;
+import com.basis.ui.BaseActivity;
 import com.kit.UIKit;
 
 public class SamepleFragmentActivity extends BaseActivity {

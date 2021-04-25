@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.basis.PreviewActivity;
-import com.basis.base.ListFragment;
+import com.basis.ui.ListFragment;
 import com.bcq.adapter.SampleAdapter;
 import com.bcq.adapter.interfaces.IAdapte;
 import com.bcq.adapter.listview.LvHolder;

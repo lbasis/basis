@@ -75,7 +75,7 @@ public class WXDialog implements IDialog<WXDialog> {
             throw new IllegalArgumentException("contentView can not null !");
         }
         contentView = content;
-        dialog = new Dialog(context, R.style.CustomProgressDialog);
+        dialog = new Dialog(context, R.style.Basis_Style_WX_Dialog);
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         dialog.addContentView(contentView, params);
         dialog.setCanceledOnTouchOutside(false);

@@ -1,9 +1,9 @@
-package com.basis.base;
+package com.basis.ui;
 
 /**
  * @author: BaiCQ
  * @ClassName: IBasis
- * @Description: 刷新UI的接口
+ * @Description: UI的接口
  */
 public interface IBasis {
 
@@ -24,7 +24,7 @@ public interface IBasis {
     void onRefresh(Object obj);
 
     /**
-     * 网络变化回调接口
+     * 网络变化回调
      */
     void onNetChange();
 }

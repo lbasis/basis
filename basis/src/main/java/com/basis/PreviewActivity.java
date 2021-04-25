@@ -8,7 +8,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.basis.base.BaseActivity;
+import com.basis.ui.BaseActivity;
 import com.basis.widget.interfaces.IWrapBar;
 import com.kit.utils.Logger;
 import com.kit.utils.ScreenUtil;

@@ -10,12 +10,9 @@ import com.bcq.adapter.SampleAdapter;
 import com.bcq.adapter.interfaces.IAdapte;
 import com.bcq.adapter.recycle.RcyHolder;
 import com.basis.PreviewActivity;
-import com.basis.base.ListActivity;
-import com.kit.UIKit;
+import com.basis.ui.ListActivity;
 import com.kit.utils.ImageLoader;
 import com.bcq.net.api.Method;
-
-import java.util.List;
 
 public class RcyListActivity extends ListActivity<Meizi, Meizi, RcyHolder> {
     private IAdapte<Meizi, RcyHolder> mAdapter;

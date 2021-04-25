@@ -1,16 +1,12 @@
-package com.basis.base;
+package com.basis.ui;
 
 import android.text.TextUtils;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.basis.net.VHolder;
 import com.bcq.adapter.interfaces.IHolder;
-import com.basis.R;
 import com.basis.net.Controller;
 import com.basis.net.IOperator;
 import com.basis.net.LoadTag;
@@ -18,26 +14,19 @@ import com.bcq.net.wrapper.ILoadTag;
 import com.bcq.net.wrapper.interfaces.IParse;
 import com.kit.utils.Logger;
 import com.kit.utils.ObjUtil;
-import com.kit.UIKit;
 import com.bcq.net.api.Method;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * @author: BaiCQ
- * @createTime: 2017/1/13 11:38
- * @className: AbsListFragment
- * @Description: 正常情况下 ND, AD 的类型是一致的
+ * @param <ND> 接口数据类型
+ * @param <AD> 适配器数据类型 一般情况：和ND类型一致
+ * @param <VH> 适配器的holder类型 IRefresh的类型是Listview VH是LvHolder，若是RecylerView VH是RcyHolder
  */
 public abstract class ListFragment<ND, AD, VH extends IHolder> extends BaseFragment implements IOperator<ND, AD, VH>, IListRefresh<ND> {
     private Class<ND> tClass;
     private Controller<ND, AD, VH> controller;
-
-//    @Override
-//    public final int setLayoutId() {
-//        return R.layout.fragment_abs_list;
-//    }
 
     protected RecyclerView.LayoutManager onSetLayoutManager() {
         return new LinearLayoutManager(activity);

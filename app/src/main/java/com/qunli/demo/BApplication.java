@@ -1,19 +1,27 @@
 package com.qunli.demo;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
 
+import com.basis.BasisHelper;
+import com.basis.CustomerReceiver;
 import com.bcq.net.wrapper.OkHelper;
 import com.bcq.net.wrapper.Wrapper;
 import com.bcq.net.wrapper.interfaces.IParse;
+import com.bcq.refresh.RefreshHelper;
+import com.bcq.refresh.progress.Style;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.kit.UIKit;
 import com.kit.cache.GsonUtil;
 import com.kit.utils.Logger;
 
 
 public class BApplication extends Application {
     private static IParse parser;
+    public static String CUS_ACTION = "com.ql_demo.test.customer_action";
 
     @Override
     public void onCreate() {
@@ -28,6 +36,15 @@ public class BApplication extends Application {
             parser = new BqIParse();
         }
         OkHelper.get().setDefaultParser(parser);
+        RefreshHelper.setDefaultStyle(Style.LineScale);
+        BasisHelper.setCustomerReceiver(new String[]{CUS_ACTION}, new CustomerReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+                String param = (String) intent.getSerializableExtra(UIKit.KEY_BASE);
+                Logger.e("CustomerReceiver", "action = " + action + " param = " + param);
+            }
+        });
     }
 
     public static IParse<Wrapper> getParser() {

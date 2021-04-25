@@ -1,26 +1,20 @@
-package com.basis.base;
+package com.basis.ui;
 
 import android.text.TextUtils;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.basis.net.VHolder;
-import com.bcq.adapter.interfaces.IHolder;
-import com.basis.R;
 import com.basis.net.Controller;
 import com.basis.net.IOperator;
 import com.basis.net.LoadTag;
+import com.basis.net.VHolder;
+import com.bcq.adapter.interfaces.IHolder;
+import com.bcq.net.api.Method;
 import com.bcq.net.wrapper.ILoadTag;
 import com.bcq.net.wrapper.interfaces.IParse;
-import com.bcq.refresh.IRefresh;
-import com.kit.UIKit;
 import com.kit.utils.Logger;
 import com.kit.utils.ObjUtil;
-import com.bcq.net.api.Method;
 
 import java.util.List;
 import java.util.Map;
@@ -51,7 +45,7 @@ public abstract class ListActivity<ND, AD, VH extends IHolder> extends BaseActiv
         initView();
     }
 
-    /*************** IListRefresh 主动调用***************/
+    /*************** IListRefresh 实现 ***************/
     @Override
     public abstract void initView();
 

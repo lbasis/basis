@@ -4,13 +4,11 @@ import android.widget.ImageView;
 
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.basis.base.BaseActivity;
+import com.basis.ui.BaseActivity;
 import com.bcq.adapter.RefreshAdapter;
 import com.bcq.adapter.SampleAdapter;
 import com.bcq.adapter.recycle.RcyHolder;
-import com.bcq.refresh.IRefresh;
 import com.bcq.refresh.XRecyclerView;
-import com.kit.CommUtil;
 import com.kit.UIKit;
 
 import java.util.ArrayList;
