@@ -8,16 +8,16 @@
         android:id="@+id/okapi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimens_60px"
-        android:layout_marginRight="@dimen/dimens_60px"
+        android:layout_marginLeft="@dimen/basis_60px"
+        android:layout_marginRight="@dimen/basis_60px"
         android:text="Ok Api调试" />
 
     <Button
         android:id="@+id/netapi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimens_60px"
-        android:layout_marginRight="@dimen/dimens_60px"
+        android:layout_marginLeft="@dimen/basis_60px"
+        android:layout_marginRight="@dimen/basis_60px"
         android:text="Net Api 调试" />
 
 </LinearLayout>

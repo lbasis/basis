@@ -4,5 +4,5 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_margin="@dimen/dimens_10px" />
+    android:layout_margin="@dimen/basis_10px" />
 

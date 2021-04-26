@@ -53,7 +53,7 @@ public class WXDialog implements IDialog<WXDialog> {
      */
     public WXDialog(final Activity activity) {
         this.context = activity;
-        View contentView = LayoutInflater.from(context).inflate(R.layout.layout_wx_dialog, null);
+        View contentView = LayoutInflater.from(context).inflate(R.layout.basis_layout_wx, null);
         wxstyle(contentView);
         initView();
     }
@@ -247,34 +247,34 @@ public class WXDialog implements IDialog<WXDialog> {
 
     @Override
     public WXDialog defalutStyle(boolean title, View.OnClickListener sureClick) {
-        return title ? setTitle(R.string.tip)
-                .setCancelButton(R.string.cancle)
-                .setSureButton(R.string.ok, sureClick)
-                : setCancelButton(R.string.cancle)
-                .setSureButton(R.string.ok, sureClick);
+        return title ? setTitle(R.string.basis_tip)
+                .setCancelButton(R.string.basis_cancle)
+                .setSureButton(R.string.basis_ok, sureClick)
+                : setCancelButton(R.string.basis_cancle)
+                .setSureButton(R.string.basis_ok, sureClick);
     }
 
     @Override
     public WXDialog cancelStyle(boolean title) {
-        return title ? setTitle(R.string.tip)
-                .setCancelButton(R.string.cancle)
-                : setCancelButton(R.string.cancle);
+        return title ? setTitle(R.string.basis_tip)
+                .setCancelButton(R.string.basis_cancle)
+                : setCancelButton(R.string.basis_cancle);
     }
 
     @Override
     public WXDialog sureStyle(boolean title, View.OnClickListener sureClick) {
-        return title ? setTitle(R.string.tip)
-                .setSureButton(R.string.ok, sureClick)
-                : setSureButton(R.string.ok, sureClick);
+        return title ? setTitle(R.string.basis_tip)
+                .setSureButton(R.string.basis_ok, sureClick)
+                : setSureButton(R.string.basis_ok, sureClick);
     }
 
     @Override
     public WXDialog deleteStyle(boolean title, View.OnClickListener sureClick) {
-        return title ? setTitle(R.string.tip)
-                .setCancelButton(R.string.cancle)
-                .setSureButton(R.string.delete, R.color.white, R.drawable.selector_red_solid, sureClick)
-                : setCancelButton(R.string.cancle)
-                .setSureButton(R.string.delete, R.color.white, R.drawable.selector_red_solid, sureClick);
+        return title ? setTitle(R.string.basis_tip)
+                .setCancelButton(R.string.basis_cancle)
+                .setSureButton(R.string.basis_delete, android.R.color.white, R.drawable.selector_red_solid, sureClick)
+                : setCancelButton(R.string.basis_cancle)
+                .setSureButton(R.string.basis_delete, android.R.color.white, R.drawable.selector_red_solid, sureClick);
     }
 
     /********************* 封装的工具类 **************************/

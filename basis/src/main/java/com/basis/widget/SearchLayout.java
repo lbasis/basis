@@ -2,7 +2,6 @@ package com.basis.widget;
 
 import android.content.Context;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -14,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.basis.R;
-import com.kit.utils.Logger;
 import com.kit.UIKit;
 
 /**
@@ -51,7 +49,7 @@ public class SearchLayout extends LinearLayout {
     private void inflateWidget() {
         setOrientation(HORIZONTAL);//横向 默认
         setGravity(Gravity.CENTER_VERTICAL);//居中
-        rootView = LayoutInflater.from(context).inflate(R.layout.layout_search, this);
+        rootView = LayoutInflater.from(context).inflate(R.layout.basis_layout_search, this);
         et_search = UIKit.getView(rootView, R.id.et_search);
         iv_delete = UIKit.getView(rootView, R.id.iv_search_delete);
         iv_delete.setVisibility(GONE);

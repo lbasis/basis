@@ -3,28 +3,28 @@
 
     <item android:state_pressed="true">
         <shape>
-            <corners android:radius="@dimen/main_corner" />
-            <solid android:color="#02479C" />
+            <corners android:radius="@dimen/kit_corner" />
+            <solid android:color="#bbbbbb" />
         </shape>
     </item>
     <item android:state_enabled="true">
         <shape>
-            <corners android:radius="@dimen/main_corner" />
-            <solid android:color="#d202479C" />
+            <corners android:radius="@dimen/kit_corner" />
+            <solid android:color="#d2bbbbbb" />
         </shape>
     </item>
     <item android:state_enabled="false">
         <shape>
-            <corners android:radius="@dimen/main_corner" />
-            <solid android:color="#9902479C" />
+            <corners android:radius="@dimen/kit_corner" />
+            <solid android:color="#99bbbbbb" />
         </shape>
     </item>
     <item>
         <shape>
             <!-- 半径 -->
-            <corners android:radius="@dimen/main_corner" />
+            <corners android:radius="@dimen/kit_corner" />
             <!-- 填充的颜色 -->
-            <solid android:color="#d202479C" />
+            <solid android:color="#d2bbbbbb" />
         </shape>
     </item>
 

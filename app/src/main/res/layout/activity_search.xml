@@ -2,28 +2,28 @@
 <com.basis.percent.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
     <com.basis.widget.SearchLayout
         android:id="@+id/search_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/dimens_20px"
-        android:paddingTop="@dimen/dimens_10px"
-        android:paddingRight="@dimen/dimens_20px"
-        android:paddingBottom="@dimen/dimens_10px"
+        android:paddingLeft="@dimen/basis_20px"
+        android:paddingTop="@dimen/basis_10px"
+        android:paddingRight="@dimen/basis_20px"
+        android:paddingBottom="@dimen/basis_10px"
         android:visibility="gone" />
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimens_20px"
-        android:layout_marginTop="@dimen/dimens_10px"
-        android:layout_marginRight="@dimen/dimens_20px"
-        android:layout_marginBottom="@dimen/dimens_10px"
-        android:background="@drawable/shape_search"
+        android:layout_marginLeft="@dimen/basis_20px"
+        android:layout_marginTop="@dimen/basis_10px"
+        android:layout_marginRight="@dimen/basis_20px"
+        android:layout_marginBottom="@dimen/basis_10px"
+        android:background="@drawable/basis_shape_search"
         android:theme="@style/BasisTheme"
         android:visibility="gone" />
 

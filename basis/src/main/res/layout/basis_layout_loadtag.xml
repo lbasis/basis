@@ -8,10 +8,10 @@
 
     <com.bcq.refresh.progress.IndicatorView
         android:id="@+id/prgressBar"
-        android:layout_width="@dimen/dimens_60px"
-        android:layout_height="@dimen/dimens_60px"
+        android:layout_width="@dimen/basis_60px"
+        android:layout_height="@dimen/basis_60px"
         app:indicator_style="BallSpinFadeLoader"
-        app:indicator_color="@color/color_loadtag"
+        app:indicator_color="@color/basis_color_loadtag"
         android:layout_gravity="center" />
 
     <TextView
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/re_loading"
-        android:textColor="@color/color_loadtag"
+        android:textColor="@color/basis_color_loadtag"
         android:textSize="14sp" />
 </LinearLayout>
 

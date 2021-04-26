@@ -4,7 +4,7 @@
     tools:ignore="ResourceName">
 
     <solid android:color="@android:color/white" />
-    <corners android:radius="@dimen/main_corner" />
+    <corners android:radius="@dimen/kit_corner" />
     <stroke android:color="#8A96A3"
         android:width="1.5px"/>
 </shape>

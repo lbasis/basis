@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--  ****************  ILoad style **************** -->
     <style name="Basis_Style_WX_Dialog" parent="android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
@@ -11,132 +11,95 @@
     </style>
     <!--  ****************  bottom dialog  style  **************** -->
     <style name="Basis_Style_Bottom_Menu" parent="android:Theme.Dialog">
-        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowBackground">@android:color/white</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowAnimationStyle">@style/Basis_Style_Bottom_Menu_Anim</item>
     </style>
 
     <style name="Basis_Style_Bottom_Menu_Anim">
-        <item name="android:windowEnterAnimation">@anim/bottom_menu_window_in_anim</item>
-        <item name="android:windowExitAnimation">@anim/bottom_menu_window_out_anim</item>
-    </style>
-
-    <!--  ****************  自定义 文字相关style  **************** -->
-    <style name="main_white">
-        <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="main_black0">
-        <item name="android:textColor">@color/color_font_black0</item>
-    </style>
-
-    <style name="main_black1">
-        <item name="android:textColor">@color/color_font_black1</item>
-    </style>
-
-    <style name="main_black2">
-        <item name="android:textColor">@color/color_font_black2</item>
-    </style>
-
-    <style name="main_blue">
-        <item name="android:textColor">@color/color_blue</item>
+        <item name="android:windowEnterAnimation">@anim/basis_anim_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/basis_anim_bottom_out</item>
     </style>
 
     <!--white 白色字体 style-->
-    <style name="main_text_white_18" parent="main_white">
-        <item name="android:textSize">@dimen/font_18sp</item>
+    <style name="main_white_17" tools:ignore="ResourceName">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/basis_17sp</item>
     </style>
 
-    <style name="main_text_white_17" parent="main_white">
-        <item name="android:textSize">@dimen/font_17sp</item>
+    <style name="main_white_16" tools:ignore="ResourceName">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/basis_16sp</item>
     </style>
 
-    <style name="main_text_white_16" parent="main_white">
-        <item name="android:textSize">@dimen/font_16sp</item>
+    <style name="main_white_15" tools:ignore="ResourceName">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/basis_15sp</item>
     </style>
 
-    <style name="main_text_white_15" parent="main_white">
-        <item name="android:textSize">@dimen/font_15sp</item>
+    <style name="main_white_14" tools:ignore="ResourceName">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/basis_14sp</item>
     </style>
 
-    <style name="main_text_white_14" parent="main_white">
-        <item name="android:textSize">@dimen/font_14sp</item>
+    <!--primary初级文字样式-->
+    <style name="main_primary_17" tools:ignore="ResourceName">
+        <item name="android:textColor">@color/basis_color_primary</item>
+        <item name="android:textSize">@dimen/basis_17sp</item>
     </style>
 
-    <style name="main_text_white_13" parent="main_white">
-        <item name="android:textSize">@dimen/font_13sp</item>
+    <style name="main_primary_16" tools:ignore="ResourceName">
+        <item name="android:textColor">@color/basis_color_primary</item>
+        <item name="android:textSize">@dimen/basis_16sp</item>
     </style>
 
-    <style name="main_text_white_12" parent="main_white">
-        <item name="android:textSize">@dimen/font_12sp</item>
+    <style name="main_primary_15" tools:ignore="ResourceName">
+        <item name="android:textColor">@color/basis_color_primary</item>
+        <item name="android:textSize">@dimen/basis_15sp</item>
     </style>
 
-    <!--black 黑色字体 style-->
-    <style name="main_text_black_17" parent="main_black0">
-        <item name="android:textSize">@dimen/font_17sp</item>
+    <style name="main_primary_14" tools:ignore="ResourceName">
+        <item name="android:textColor">@color/basis_color_primary</item>
+        <item name="android:textSize">@dimen/basis_14sp</item>
     </style>
 
-    <style name="main_text_black_16" parent="main_black0">
-        <item name="android:textSize">@dimen/font_16sp</item>
+    <!--secondary次级文字样式-->
+
+    <style name="main_secondary_15" tools:ignore="ResourceName">
+        <item name="android:textColor">@color/basis_color_secondary</item>
+        <item name="android:textSize">@dimen/basis_15sp</item>
     </style>
 
-    <style name="main_text_black_15" parent="main_black0">
-        <item name="android:textSize">@dimen/font_15sp</item>
+    <style name="main_secondary_14" tools:ignore="ResourceName">
+        <item name="android:textColor">@color/basis_color_secondary</item>
+        <item name="android:textSize">@dimen/basis_14sp</item>
     </style>
 
-    <style name="main_text_black_14" parent="main_black0">
-        <item name="android:textSize">@dimen/font_14sp</item>
+    <style name="main_secondary_13" tools:ignore="ResourceName">
+        <item name="android:textColor">@color/basis_color_secondary</item>
+        <item name="android:textSize">@dimen/basis_13sp</item>
     </style>
 
-    <style name="main_text_black_13" parent="main_black0">
-        <item name="android:textSize">@dimen/font_13sp</item>
-    </style>
-
-    <style name="main_text_black_12" parent="main_black0">
-        <item name="android:textSize">@dimen/font_12sp</item>
-    </style>
-
-    <!--gray 灰色字体 style-->
-    <style name="main_text_gray_16" parent="main_black2">
-        <item name="android:textSize">@dimen/font_16sp</item>
-    </style>
-
-    <style name="main_text_gray_15" parent="main_black2">
-        <item name="android:textSize">@dimen/font_15sp</item>
-    </style>
-
-    <style name="main_text_gray_14" parent="main_black2">
-        <item name="android:textSize">@dimen/font_14sp</item>
-    </style>
-
-    <style name="main_text_gray_12" parent="main_black2">
-        <item name="android:textSize">@dimen/font_12sp</item>
-    </style>
-
-    <!--blue_green 蓝绿色字体 style-->
-    <style name="main_text_blue_14" parent="main_blue">
-        <item name="android:textSize">@dimen/font_14sp</item>
-    </style>
-
-    <style name="main_text_blue_13" parent="main_blue">
-        <item name="android:textSize">@dimen/font_13sp</item>
+    <style name="main_secondary_12" tools:ignore="ResourceName">
+        <item name="android:textColor">@color/basis_color_secondary</item>
+        <item name="android:textSize">@dimen/basis_12sp</item>
     </style>
 
     <!--分割线的style -->
-    <style name="main_divide_line">
+    <style name="basis_main_divider">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:background">@color/color_divide</item>
-        <item name="android:layout_height">@dimen/main_divide</item>
+        <item name="android:background">@color/basis_color_divider</item>
+        <item name="android:layout_height">@dimen/basis_main_divide</item>
     </style>
 
-    <style name="main_divide_line_30px" parent="@style/main_divide_line">
-        <item name="android:layout_marginLeft">@dimen/dimens_30px</item>
-        <item name="android:layout_marginRight">@dimen/dimens_30px</item>
+    <style name="basis_main_divider_30px" parent="@style/basis_main_divider">
+        <item name="android:layout_marginLeft">@dimen/basis_30px</item>
+        <item name="android:layout_marginRight">@dimen/basis_30px</item>
     </style>
 
-    <style name="main_divide_line_15px" parent="@style/main_divide_line">
-        <item name="android:layout_marginLeft">@dimen/dimens_15px</item>
-        <item name="android:layout_marginRight">@dimen/dimens_15px</item>
+    <style name="basis_main_divider_15px" parent="@style/basis_main_divider">
+        <item name="android:layout_marginLeft">@dimen/basis_15px</item>
+        <item name="android:layout_marginRight">@dimen/basis_15px</item>
     </style>
 </resources>

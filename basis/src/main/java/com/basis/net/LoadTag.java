@@ -32,7 +32,7 @@ public class LoadTag implements ILoadTag {
 
     public LoadTag(Activity activity, String dialogMsg) {
         dialog = new Dialog(activity, R.style.Basis_Style_WX_Dialog);
-        View rootView = LayoutInflater.from(activity).inflate(R.layout.layout_load_dialog, null);
+        View rootView = LayoutInflater.from(activity).inflate(R.layout.basis_layout_loadtag, null);
         progressBar = rootView.findViewById(R.id.prgressBar);
         progressBar.setStyle(Style.BallSpinFadeLoader);
         TextView textView = (TextView) rootView.findViewById(R.id.tv_load_msg);
