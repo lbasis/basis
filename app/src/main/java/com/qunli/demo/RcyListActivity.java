@@ -14,10 +14,12 @@ import com.basis.ui.ListActivity;
 import com.kit.utils.ImageLoader;
 import com.bcq.net.api.Method;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RcyListActivity extends ListActivity<Meizi, Meizi, RcyHolder> {
     private IAdapte<Meizi, RcyHolder> mAdapter;
     private final int mCurPage = 1;
-
 
     @Override
     public int setLayoutId() {
@@ -38,10 +40,17 @@ public class RcyListActivity extends ListActivity<Meizi, Meizi, RcyHolder> {
         return new GridLayoutManager(activity, 3);
     }
 
-//    @Override
-//    public List<Meizi> onPreSetData(List<Meizi> netData) {
-//        return null;
-//    }
+    @Override
+    public List<Meizi> onPreSetData(List<Meizi> netData) {
+        List<Meizi> result = new ArrayList<>();
+        Meizi meizi;
+        for (int i = 0; i < 20; i++) {
+            meizi = new Meizi();
+            meizi.setUrl("http:");
+            result.add(meizi);
+        }
+        return result;
+    }
 
     @Override
     public IAdapte<Meizi, RcyHolder> onSetAdapter() {

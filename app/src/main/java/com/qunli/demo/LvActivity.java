@@ -6,8 +6,10 @@ import android.widget.ImageView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.basis.net.IRHolder;
 import com.basis.ui.BaseActivity;
 import com.basis.net.LoadTag;
+import com.basis.ui.RHolder;
 import com.bcq.adapter.SampleAdapter;
 import com.bcq.adapter.interfaces.IAdapte;
 import com.bcq.adapter.listview.LvHolder;
@@ -25,6 +27,7 @@ public class LvActivity extends BaseActivity {
     private IRefresh refresh;
     private IAdapte<Meizi, LvHolder> mAdapter;
     private int mCurPage = 1;
+    private IRHolder holder;
 
     @Override
     public int setLayoutId() {
@@ -38,6 +41,7 @@ public class LvActivity extends BaseActivity {
             final GridLayoutManager layoutmanager = new GridLayoutManager(this, 2);
             ((RecyclerView) refresh).setLayoutManager(layoutmanager);
         }
+        holder = new RHolder(refresh);
         refresh.enableRefresh(true);
         refresh.enableLoad(true);
         refresh.setLoadListener(new IRefresh.LoadListener() {
@@ -59,6 +63,11 @@ public class LvActivity extends BaseActivity {
             public void convert(LvHolder holder, Meizi meizi, int position, int layoutId) {
                 ImageView imageView = holder.getView(R.id.img_content);
                 ImageLoader.loadUrl(imageView, meizi.getUrl(), R.mipmap.ic_launcher, ImageLoader.Size.SZ_250);
+            }
+            @Override
+            public void onObserve(int length) {
+                Logger.e("SampleAdapter", "data len = "+length);
+                holder.showType(length == 0? IRHolder.Type.none: IRHolder.Type.show);
             }
         };
         mAdapter.setRefreshView((View) refresh);
@@ -82,7 +91,8 @@ public class LvActivity extends BaseActivity {
 
             @Override
             public void onError(int code, String errMsg) {
-                super.onError(code, errMsg);
+                Logger.e("AdapterActivity", "code = " + code + " message = "+errMsg);
+                mAdapter.setData(null,false);
             }
 
             @Override

@@ -6,9 +6,12 @@ import android.widget.ImageView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.basis.net.IRHolder;
 import com.basis.ui.BaseActivity;
 import com.basis.net.LoadTag;
+import com.basis.ui.RHolder;
 import com.bcq.adapter.SampleAdapter;
+import com.bcq.adapter.interfaces.DataObserver;
 import com.bcq.adapter.interfaces.IAdapte;
 import com.bcq.adapter.recycle.RcyHolder;
 import com.bcq.net.Request;
@@ -17,6 +20,7 @@ import com.bcq.net.net.ListCallback;
 import com.bcq.net.wrapper.interfaces.IResult;
 import com.bcq.refresh.IRefresh;
 import com.kit.utils.ImageLoader;
+import com.kit.utils.KToast;
 import com.kit.utils.Logger;
 
 import java.util.List;
@@ -25,7 +29,7 @@ public class RcyActivity extends BaseActivity {
     private IRefresh refresh;
     private IAdapte<Meizi, RcyHolder> mAdapter;
     private int mCurPage = 1;
-
+    private IRHolder holder;
     @Override
     public int setLayoutId() {
         return R.layout.activity_xrecycle;
@@ -34,6 +38,7 @@ public class RcyActivity extends BaseActivity {
     public void init() {
         getWrapBar().setTitle(R.string.str_list_mv).work();
         refresh = findViewById(R.id.rv);
+        holder = new RHolder(refresh);
         if (refresh instanceof RecyclerView) {
             final GridLayoutManager layoutmanager = new GridLayoutManager(this, 2);
             ((RecyclerView) refresh).setLayoutManager(layoutmanager);
@@ -54,11 +59,16 @@ public class RcyActivity extends BaseActivity {
             }
         });
         mAdapter = new SampleAdapter<Meizi, RcyHolder>(this, R.layout.item_mz) {
-
             @Override
             public void convert(RcyHolder holder, Meizi meizi, int position, int layoutId) {
                 ImageView imageView = holder.getView(R.id.img_content);
                 ImageLoader.loadUrl(imageView, meizi.getUrl(), R.mipmap.ic_launcher, ImageLoader.Size.SZ_250);
+            }
+
+            @Override
+            public void onObserve(int length) {
+                Logger.e("SampleAdapter", "data len = "+length);
+                holder.showType(length == 0? IRHolder.Type.none: IRHolder.Type.show);
             }
         };
         mAdapter.setRefreshView((View) refresh);
@@ -82,7 +92,8 @@ public class RcyActivity extends BaseActivity {
 
             @Override
             public void onError(int code, String errMsg) {
-                super.onError(code, errMsg);
+                Logger.e("AdapterActivity", "code = " + code + " message = "+errMsg);
+                mAdapter.setData(null,false);
             }
 
             @Override

@@ -33,17 +33,17 @@ public class Controller<ND, AD, VH extends IHolder> extends NetRefresher<ND> imp
     //适配器使用功能集合 泛型不能使用 T 接口返回类型有可能和适配器使用的不一致
     private List<AD> adapterList = new ArrayList<>();
     private IAdapte<AD, VH> mAdapter;
-    private VHolder holder;
+    private IRHolder holder;
 
     protected RecyclerView.LayoutManager onSetLayoutManager() {
         return new LinearLayoutManager(UIKit.getContext());
     }
 
-    public Controller(VHolder holder, Class<ND> tclazz, IOperator<ND, AD, VH> operator) {
-       this(holder,tclazz,operator,BasisHelper.getPage());
+    public Controller(IRHolder holder, Class<ND> tclazz, IOperator<ND, AD, VH> operator) {
+        this(holder, tclazz, operator, BasisHelper.getPage());
     }
 
-    public Controller(VHolder holder, Class<ND> tclazz, IOperator<ND, AD, VH> operator,Page page) {
+    public Controller(IRHolder holder, Class<ND> tclazz, IOperator<ND, AD, VH> operator, Page page) {
         super(tclazz, page, operator);
         this.holder = holder;
         this.operator = operator;
@@ -51,15 +51,16 @@ public class Controller<ND, AD, VH extends IHolder> extends NetRefresher<ND> imp
     }
 
     private void initialize() {
-        holder.refresh.enableRefresh(true);
-        holder.refresh.enableLoad(true);
-        if (holder.refresh instanceof RecyclerView) {
-            ((RecyclerView) holder.refresh).setLayoutManager(onSetLayoutManager());
+        holder.getRefresh().enableRefresh(true);
+        holder.getRefresh().enableLoad(true);
+        if (holder.getRefresh() instanceof RecyclerView) {
+            ((RecyclerView) holder.getRefresh()).setLayoutManager(onSetLayoutManager());
         }
         mAdapter = operator.onSetAdapter();
+        mAdapter.setRefreshView((View) holder.getRefresh());
+        //注意此处一定要在setRefreshView后，否则别覆盖
         mAdapter.setDataObserver(this);
-        mAdapter.setRefreshView((View) holder.refresh);
-        holder.refresh.setLoadListener(new IRefresh.LoadListener() {
+        holder.getRefresh().setLoadListener(new IRefresh.LoadListener() {
             @Override
             public void onRefresh() {
                 requestAgain(true, operator);
@@ -70,7 +71,7 @@ public class Controller<ND, AD, VH extends IHolder> extends NetRefresher<ND> imp
                 requestAgain(false, operator);
             }
         });
-        holder.none.setOnClickListener(new View.OnClickListener() {
+        holder.getNone().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 requestAgain(true, operator);
@@ -81,9 +82,9 @@ public class Controller<ND, AD, VH extends IHolder> extends NetRefresher<ND> imp
     @Override
     public void onAfter() {
         super.onAfter();
-        if (null != holder && null != holder.refresh) {
-            holder.refresh.refreshComplete();
-            holder.refresh.loadComplete();
+        if (null != holder && null != holder.getRefresh()) {
+            holder.getRefresh().refreshComplete();
+            holder.getRefresh().loadComplete();
         }
     }
 
@@ -102,10 +103,10 @@ public class Controller<ND, AD, VH extends IHolder> extends NetRefresher<ND> imp
         /* 设置适配器前 */
         List<AD> temp = operator.onPreSetData(adapterList);
         if (null != temp && !temp.isEmpty()) {
-            if (null != holder) holder.showType(VHolder.Type.show);
+            if (null != holder) holder.showType(IRHolder.Type.show);
             mAdapter.setData(temp, isRefresh);
         } else {
-            if (null != holder) holder.showType(VHolder.Type.none);
+            if (null != holder) holder.showType(IRHolder.Type.none);
         }
     }
 
@@ -116,8 +117,6 @@ public class Controller<ND, AD, VH extends IHolder> extends NetRefresher<ND> imp
     @Override
     public void onObserve(int length) {
         Logger.e(TAG, "onObserve: len = " + length);
-        if (length == 0) {
-            if (null != holder) holder.showType(VHolder.Type.none);
-        }
+        if (null != holder) holder.showType(length == 0 ? IRHolder.Type.none : IRHolder.Type.show);
     }
 }

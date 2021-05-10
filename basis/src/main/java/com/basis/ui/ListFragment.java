@@ -5,12 +5,11 @@ import android.text.TextUtils;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.basis.net.VHolder;
 import com.bcq.adapter.interfaces.IHolder;
 import com.basis.net.Controller;
 import com.basis.net.IOperator;
 import com.basis.net.LoadTag;
-import com.bcq.net.wrapper.ILoadTag;
+import com.bcq.net.wrapper.interfaces.ILoadTag;
 import com.bcq.net.wrapper.interfaces.IParse;
 import com.kit.utils.Logger;
 import com.kit.utils.ObjUtil;
@@ -35,7 +34,7 @@ public abstract class ListFragment<ND, AD, VH extends IHolder> extends BaseFragm
     @Override
     public final void init() {
         tClass = (Class<ND>) ObjUtil.getTType(getClass())[0];
-        VHolder holder = new VHolder(getLayout());
+        RHolder holder = new RHolder(getLayout());
         controller = new Controller(holder, tClass, this) {
             @Override
             protected RecyclerView.LayoutManager onSetLayoutManager() {
