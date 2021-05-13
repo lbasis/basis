@@ -40,17 +40,17 @@ public class RcyListActivity extends ListActivity<Meizi, Meizi, RcyHolder> {
         return new GridLayoutManager(activity, 3);
     }
 
-    @Override
-    public List<Meizi> onPreSetData(List<Meizi> netData) {
-        List<Meizi> result = new ArrayList<>();
-        Meizi meizi;
-        for (int i = 0; i < 20; i++) {
-            meizi = new Meizi();
-            meizi.setUrl("http:");
-            result.add(meizi);
-        }
-        return result;
-    }
+//    @Override
+//    public List<Meizi> onPreSetData(List<Meizi> netData) {
+//        List<Meizi> result = new ArrayList<>();
+//        Meizi meizi;
+//        for (int i = 0; i < 20; i++) {
+//            meizi = new Meizi();
+//            meizi.setUrl("http:");
+//            result.add(meizi);
+//        }
+//        return result;
+//    }
 
     @Override
     public IAdapte<Meizi, RcyHolder> onSetAdapter() {
