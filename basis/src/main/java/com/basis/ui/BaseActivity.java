@@ -66,7 +66,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBasis {
         }
     }
 
-    protected IWrapBar getWrapBar() {
+    public IWrapBar getWrapBar() {
         return wrapBar;
     }
 
