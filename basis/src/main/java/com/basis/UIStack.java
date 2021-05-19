@@ -12,6 +12,7 @@ import com.kit.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @Author: BaiCQ
@@ -26,7 +27,7 @@ public class UIStack {
     //全局广播
     private BroadcastReceiver bdReceiver;
     private CustomerReceiver customerReceiver;
-    private LinkedList<IBasis> iBases = new LinkedList<>();
+    private LinkedList<IBasis> ibasiss = new LinkedList<>();
 
     static {
         actions.add(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -65,29 +66,29 @@ public class UIStack {
     }
 
     public synchronized void add(IBasis iBasis) {
-        iBases.add(iBasis);
+        ibasiss.add(iBasis);
         if (null == bdReceiver) {//说明释放啦
             bdReceiver = new UIReceiver();
             BroadcastUtil.registerReceiver(bdReceiver, actions);
         }
-        Logger.e(TAG, "add : size = " + iBases.size() + " ibase:" + iBasis.getClass().getSimpleName());
+        Logger.e(TAG, "add : size = " + ibasiss.size() + " ibase:" + iBasis.getClass().getSimpleName());
     }
 
     public synchronized void remove(IBasis remove) {
-        iBases.remove(remove);
-        if (iBases.isEmpty()) {
+        ibasiss.remove(remove);
+        if (ibasiss.isEmpty()) {
             if (null != bdReceiver) {
                 BroadcastUtil.unregisterReceiver(bdReceiver);
                 bdReceiver = null;
             }
         }
-        Logger.e(TAG, "remove : size = " + iBases.size() + " ibase:" + remove.getClass().getSimpleName());
+        Logger.e(TAG, "remove : size = " + ibasiss.size() + " ibase:" + remove.getClass().getSimpleName());
     }
 
     public Activity getTopActivity() {
-        int len = iBases.size();
+        int len = ibasiss.size();
         for (int i = len - 1; i >= 0; i--) {
-            IBasis base = iBases.get(i);
+            IBasis base = ibasiss.get(i);
             if (base instanceof Activity) {
                 return (BaseActivity) base;
             }
@@ -97,10 +98,10 @@ public class UIStack {
 
     public boolean isTaskTop(Activity activity) {
         if (null == activity) return false;
-        int len = iBases.size();
+        int len = ibasiss.size();
         Activity top = null;
         for (int i = len - 1; i >= 0; i--) {
-            IBasis base = iBases.get(i);
+            IBasis base = ibasiss.get(i);
             if (base instanceof Activity) {
                 top = (Activity) base;
                 break;
@@ -111,14 +112,18 @@ public class UIStack {
         return isTaskTop;
     }
 
+    public List<IBasis> getIbasiss() {
+        return ibasiss;
+    }
+
     public synchronized void exit() {
         if (null != bdReceiver) {
             BroadcastUtil.unregisterReceiver(bdReceiver);
             bdReceiver = null;
         }
-        int len = iBases.size();
+        int len = ibasiss.size();
         for (int i = len - 1; i >= 0; i--) {
-            IBasis base = iBases.get(i);
+            IBasis base = ibasiss.get(i);
             if (base instanceof Activity) {
                 Activity act = (Activity) base;
                 if (!act.isFinishing()) {
@@ -141,7 +146,7 @@ public class UIStack {
     }
 
     private void setResultForAll() {
-        for (IBasis a : iBases) {
+        for (IBasis a : ibasiss) {
             if (a instanceof Activity) {
                 a.onNetChange();
             }
