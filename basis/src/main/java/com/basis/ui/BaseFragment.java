@@ -6,11 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.basis.UIStack;
+import com.bcq.mvvm.IModel;
+import com.bcq.mvvm.IViewModel;
 import com.kit.utils.Logger;
 
 /**
@@ -19,11 +20,11 @@ import com.kit.utils.Logger;
  * @date: 2018/8/17
  * @Description: Fragment 的基类
  */
-public abstract class BaseFragment extends Fragment implements IBasis {
+public abstract class BaseFragment<M extends IModel> extends Fragment implements IBasis<M> {
     protected final String TAG = this.getClass().getSimpleName();
     protected BaseActivity activity;
-    private View layout;
     private boolean init = false;//init 和 onRefresh()的执行的先后问题
+    private IViewModel<M> viewModel;
 
     @Override
     public final void onAttach(Context context) {
@@ -36,6 +37,10 @@ public abstract class BaseFragment extends Fragment implements IBasis {
     public void onDetach() {
         super.onDetach();
         UIStack.getInstance().remove(this);
+        if (null != viewModel) {
+            viewModel.release();
+            viewModel = null;
+        }
         init = false;
         Logger.e(TAG, "onDetach");
     }
@@ -43,9 +48,9 @@ public abstract class BaseFragment extends Fragment implements IBasis {
     @Deprecated
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        layout = inflater.inflate(setLayoutId(), null);
+        viewModel = setViewModel();
         Logger.e(TAG, "onCreateView");
-        return layout;
+        return viewModel.getView().rootView();
     }
 
     @Override
@@ -57,17 +62,14 @@ public abstract class BaseFragment extends Fragment implements IBasis {
     }
 
     @Override
-    public abstract int setLayoutId();
+    public abstract IViewModel<M> setViewModel();
 
     @Override
     public abstract void init();
 
-    protected View getLayout() {
-        return layout;
-    }
 
-    protected <T extends View> T getView(@IdRes int id) {
-        return layout.findViewById(id);
+    public IViewModel<M> getViewModel() {
+        return viewModel;
     }
 
     /**

@@ -1,19 +1,24 @@
 package com.basis.ui;
 
-import android.text.TextUtils;
+import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bcq.adapter.interfaces.IHolder;
-import com.basis.net.Controller;
+import com.basis.net.BaseOperator;
 import com.basis.net.IOperator;
 import com.basis.net.LoadTag;
-import com.bcq.net.wrapper.interfaces.ILoadTag;
+import com.basis.ui.mvvm.RefPam;
+import com.basis.ui.mvvm.RefViewModel;
+import com.basis.ui.mvvm.ReqPam;
+import com.bcq.adapter.interfaces.IAdapte;
+import com.bcq.adapter.interfaces.IHolder;
+import com.bcq.mvvm.IViewModel;
+import com.bcq.net.api.Method;
 import com.bcq.net.wrapper.interfaces.IParse;
+import com.kit.UIKit;
 import com.kit.utils.Logger;
 import com.kit.utils.ObjUtil;
-import com.bcq.net.api.Method;
 
 import java.util.List;
 import java.util.Map;
@@ -23,89 +28,62 @@ import java.util.Map;
  * @param <AD> 适配器数据类型 一般情况：和ND类型一致
  * @param <VH> 适配器的holder类型 IRefresh的类型是Listview VH是LvHolder，若是RecylerView VH是RcyHolder
  */
-public abstract class ListFragment<ND, AD, VH extends IHolder> extends BaseFragment implements IOperator<ND, AD, VH>, IListRefresh<ND> {
+public abstract class ListFragment<ND, AD, VH extends IHolder> extends BaseFragment implements IListRefresh<String, ND, AD, VH> {
     private Class<ND> tClass;
-    private Controller<ND, AD, VH> controller;
 
     protected RecyclerView.LayoutManager onSetLayoutManager() {
         return new LinearLayoutManager(activity);
     }
 
     @Override
-    public final void init() {
+    public final IViewModel setViewModel() {
         tClass = (Class<ND>) ObjUtil.getTType(getClass())[0];
-        RHolder holder = new RHolder(getLayout());
-        controller = new Controller(holder, tClass, this) {
+        View view = UIKit.inflate(onSetLayoutId());
+        return new RefViewModel(view, tClass, onSetOperater()) {
             @Override
             protected RecyclerView.LayoutManager onSetLayoutManager() {
                 return ListFragment.this.onSetLayoutManager();
             }
         };
-        initView();
-    }
-
-    /*************** IListRefresh 主动调用***************/
-    @Override
-    public abstract void initView();
-
-    @Override
-    public void request(String tag, String mUrl, Map<String, Object> params, Method method, boolean isRefresh) {
-        if (null != controller) {
-            ILoadTag itag = TextUtils.isEmpty(tag) ? null : new LoadTag(activity, tag);
-            controller.request(itag, mUrl, params, null, method, isRefresh);
-        }
     }
 
     /**
-     * @param tag       进度条显示msg
-     * @param isRefresh 是否刷新
-     * @param mUrl      mUrl
-     * @param params    参数 注意：不包含page
-     * @param method    Post/get
-     * @param parser    解析器
+     * 设置默认处理器
      */
     @Override
-    public void request(String tag, String mUrl, Map<String, Object> params, IParse parser, Method method, boolean isRefresh) {
-        if (null != controller) {
-            ILoadTag itag = TextUtils.isEmpty(tag) ? null : new LoadTag(activity, tag);
-            controller.request(itag, mUrl, params, parser, method, isRefresh);
-        }
+    public IOperator<ND, AD, VH> onSetOperater() {
+        return new BaseOperator() {
+            @Override
+            public IAdapte onSetAdapter() {
+                return ListFragment.this.onSetAdapter();
+            }
+        };
     }
 
-    /**
-     * 刷新适配器数据
-     *
-     * @param netData   接口放回数据
-     * @param isRefresh 是否刷新
-     */
+    /*************** IListRefresh 实现 ***************/
+    public abstract int onSetLayoutId();
+
+    @Override
+    public abstract void init();
+
+    public abstract IAdapte<AD, VH> onSetAdapter();
+
+    @Override
     public void refresh(List<ND> netData, boolean isRefresh) {
-        if (null != controller) controller.onRefreshData(netData, isRefresh);
-    }
-
-    /*************** IOperator 被动回调***************/
-    @Override
-    public void onCustomerRequestAgain(boolean refresh) {
-        Logger.e(TAG, "onCustomerRequestAgain:refresh = " + refresh);
-    }
-
-    /**
-     * @param netData 此次请求的数据
-     */
-    @Override
-    public List<AD> onTransform(List<ND> netData) {
-        return (List<AD>) netData;
-    }
-
-    /**
-     * @param netData 设置给适配器的数据
-     */
-    @Override
-    public List<AD> onPreSetData(List<AD> netData) {
-        return netData;
+        getViewModel().refreshByCmd(IViewModel.ACTION_REFRESH, new RefPam(isRefresh, netData));
     }
 
     @Override
-    public void onError(int code, String msg) {
-        Logger.e(TAG, "onError: [" + code + "] " + msg);
+    public void request(String tag, String api, Map<String, Object> params, Method method, boolean isRefresh) {
+        getViewModel().refreshByCmd(
+                IViewModel.ACTION_REQUEST,
+                new ReqPam(new LoadTag(activity, tag), api, params, null, method, true));
+    }
+
+    @Override
+    public void request(String tag, String api, Map<String, Object> params, IParse parser, Method method, boolean isRefresh) {
+        getViewModel().refreshByCmd(
+                IViewModel.ACTION_REFRESH,
+                new ReqPam(new LoadTag(activity, tag), api, params, parser, method, true));
     }
 }

@@ -1,16 +1,16 @@
-package com.basis.ui;
+package com.basis.ui.mvvm;
 
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.basis.R;
-import com.basis.net.IRHolder;
+import com.bcq.mvvm.ViewHolder;
 import com.bcq.refresh.IRefresh;
 import com.kit.UIKit;
 import com.kit.utils.Logger;
 
-public class RHolder implements IRHolder {
+public class RefView extends ViewHolder implements IRefView {
     protected final String TAG = "Controller # RHolder";
     protected View none;
     protected View show;
@@ -38,14 +38,12 @@ public class RHolder implements IRHolder {
         (Type.show == type ? show : none).setVisibility(View.VISIBLE);
     }
 
-    @Deprecated
-    public RHolder(View show, View none, IRefresh refresh) {
-        if (null == none || null == refresh) {
-            throw new IllegalArgumentException("Views Show or None or Refresh Can Not Null !");
+    @Override
+    public void onComplete() {
+        if (null != refresh){
+            refresh.loadComplete();
+            refresh.refreshComplete();
         }
-        this.none = none;
-        this.refresh = refresh;
-        this.show = null != show ? show : (View) refresh;
     }
 
     /**
@@ -53,7 +51,8 @@ public class RHolder implements IRHolder {
      *
      * @param layout
      */
-    public RHolder(View layout) {
+    public RefView(View layout) {
+        super(layout);
         this.refresh = UIKit.getView(layout, R.id.basis_refresh);
         this.show = UIKit.getView(layout, R.id.basis_show_content);
         //未设置basis_refresh，以layout为跟节点，向下遍历两层视图树查找， 一般RefreshView的位置不会太深
@@ -68,7 +67,8 @@ public class RHolder implements IRHolder {
         initializeNone((ViewGroup) show.getParent());
     }
 
-    public RHolder(IRefresh refresh) {
+    public RefView(IRefresh refresh) {
+        super((View) refresh);
         if (null == refresh) {
             throw new IllegalArgumentException("Views Show or None or Refresh Can Not Null !");
         }

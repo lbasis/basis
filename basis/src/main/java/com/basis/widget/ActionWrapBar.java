@@ -34,7 +34,7 @@ public class ActionWrapBar implements IWrapBar<ActionWrapBar> {
     private ActionBar inflateDefaultActionBar(BaseActivity activity) {
         ActionBar result = null;
         View defaultBarView = LayoutInflater.from(activity).inflate(R.layout.basis_action_bar_default, null, false);
-        View content = (ViewGroup) activity.getLayout();
+        View content = activity.getViewModel().getView().rootView();
         if (content instanceof ViewGroup) {
             ((ViewGroup) content).addView(defaultBarView, 0);
             Toolbar toolbar = defaultBarView.findViewById(R.id.basis_toolbar);
@@ -43,7 +43,7 @@ public class ActionWrapBar implements IWrapBar<ActionWrapBar> {
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (null != activity)activity.onBackCode();
+                    if (null != activity) activity.onBackCode();
                 }
             });
             result = activity.getSupportActionBar();

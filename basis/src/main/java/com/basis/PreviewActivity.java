@@ -10,6 +10,12 @@ import android.widget.Toast;
 
 import com.basis.ui.BaseActivity;
 import com.basis.widget.interfaces.IWrapBar;
+import com.bcq.mvvm.IModel;
+import com.bcq.mvvm.IView;
+import com.bcq.mvvm.IViewModel;
+import com.bcq.mvvm.ViewHolder;
+import com.bcq.mvvm.ViewModel;
+import com.kit.UIKit;
 import com.kit.utils.Logger;
 import com.kit.utils.ScreenUtil;
 import com.photoview.PhotoView;
@@ -17,9 +23,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
 public class PreviewActivity extends BaseActivity {
-    private Uri previewUri;
-    private int rotation = 0;
-    private PhotoView photoView;
+    private final PreModel preModel = new PreModel();
 
     public static void preview(Activity activity, Uri uri) {
         Intent intent = new Intent(activity, PreviewActivity.class);
@@ -34,9 +38,12 @@ public class PreviewActivity extends BaseActivity {
         activity.startActivity(in);
     }
 
+
     @Override
-    public int setLayoutId() {
-        return R.layout.basis_preview;
+    public IViewModel setViewModel() {
+        IViewModel vm = new PreViewModel();
+        vm.setModel(preModel);
+        return vm;
     }
 
     @Override
@@ -44,24 +51,16 @@ public class PreviewActivity extends BaseActivity {
         Intent intent = getIntent();
         String dataString = intent.getDataString();
         if (!TextUtils.isEmpty(dataString)) {
-            previewUri = Uri.parse(dataString);
+            preModel.uri = Uri.parse(dataString);
         } else {
-            previewUri = (Uri) intent.getParcelableExtra("uri");
+            preModel.uri = (Uri) intent.getParcelableExtra("uri");
         }
-        if (null == previewUri) {
+        if (null == preModel.uri) {
             Toast.makeText(this, "No Preview Uri Set !", Toast.LENGTH_LONG).show();
             return;
         }
-        Logger.e(TAG, "previewUri = " + previewUri);
+        Logger.e(TAG, "previewUri = " + preModel.uri);
         initWrapBar();
-        photoView = findViewById(R.id.iv_photo);
-        photoView.setRotationTo(rotation);
-        Picasso.get()
-                .load(previewUri)
-                .transform(new CropSquareTransformation())
-                .error(R.drawable.svg_img_default)
-                .placeholder(R.drawable.svg_image_loading)
-                .into(photoView);
     }
 
 
@@ -74,13 +73,44 @@ public class PreviewActivity extends BaseActivity {
                     @Override
                     public void onItemSelected(int position) {
                         if (0 == position) {
-                            rotation += 90;
-                            Logger.e("rotation = " + rotation);
-                            if (null != photoView) photoView.setRotationTo(rotation % 360);
+                            preModel.rotation += 90;
+                            Logger.e("rotation = " + preModel.rotation);
+                            if (null != getViewModel()) getViewModel().refreshByCmd(0,preModel.rotation);
                         }
                     }
                 })
                 .work();
+    }
+
+    private static class PreModel implements IModel {
+        public Uri uri;
+        public int rotation;
+
+        @Override
+        public void release() {
+        }
+    }
+
+    private static class PreViewModel extends ViewModel<PreModel> {
+        PreViewModel() {
+            super(UIKit.inflate(R.layout.basis_preview));
+        }
+
+        @Override
+        public void onConvert(PreModel model, int action, Object extra) {
+            PhotoView photoView = (PhotoView) iView.getView(R.id.iv_photo);
+            if (ACTION_BIND == action) {
+                photoView.setRotationTo(model.rotation);
+                Picasso.get()
+                        .load(model.uri)
+                        .transform(new CropSquareTransformation())
+                        .error(R.drawable.svg_img_default)
+                        .placeholder(R.drawable.svg_image_loading)
+                        .into(photoView);
+            } else if (0 == action) {
+                photoView.setRotationTo(model.rotation);
+            }
+        }
     }
 
     /**

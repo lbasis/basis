@@ -3,15 +3,14 @@ package com.basis.ui;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.basis.UIStack;
 import com.basis.widget.ActionWrapBar;
 import com.basis.widget.interfaces.IWrapBar;
-import com.kit.UIKit;
+import com.bcq.mvvm.IModel;
+import com.bcq.mvvm.IViewModel;
 import com.kit.utils.Logger;
 
 /**
@@ -23,15 +22,19 @@ import com.kit.utils.Logger;
  * 2.针对常用的api的封装，如：getView()
  * 3.针对finish()相关的统一封装onBackCode()
  */
-public abstract class BaseActivity extends AppCompatActivity implements IBasis {
+public abstract class BaseActivity<M extends IModel> extends AppCompatActivity implements IBasis<M> {
     protected final String TAG = this.getClass().getSimpleName();
     protected BaseActivity activity;
-    private View layout;
     private IWrapBar wrapBar;
+    private IViewModel viewModel;
 
     @Override
     protected void onDestroy() {
         UIStack.getInstance().remove(activity);
+        if (null != viewModel) {
+            viewModel.release();
+            viewModel = null;
+        }
         super.onDestroy();
     }
 
@@ -41,14 +44,16 @@ public abstract class BaseActivity extends AppCompatActivity implements IBasis {
         super.onCreate(savedInstanceState);
         activity = this;
         UIStack.getInstance().add(activity);
-        layout = UIKit.inflate(setLayoutId());
-        setContentView(layout);
+        viewModel = setViewModel();
+        setContentView(viewModel.getView().rootView());
         //init wapp
         wrapBar = new ActionWrapBar(activity).work();
         init();
+        // 设置model 绑定
+        viewModel.bind();
     }
 
-    public abstract int setLayoutId();
+    public abstract IViewModel setViewModel();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -73,12 +78,8 @@ public abstract class BaseActivity extends AppCompatActivity implements IBasis {
     @Override
     public abstract void init();
 
-    public View getLayout() {
-        return layout;
-    }
-
-    protected <T extends View> T getView(@IdRes int id) {
-        return layout.findViewById(id);
+    public IViewModel getViewModel() {
+        return viewModel;
     }
 
     @Override

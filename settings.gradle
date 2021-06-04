@@ -1,3 +1,4 @@
 rootProject.name = "Demo"
 include ':app'
 include ':basis','icon'
+include ':mvvm'
