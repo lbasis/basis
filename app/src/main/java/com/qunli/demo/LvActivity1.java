@@ -111,7 +111,7 @@ public class LvActivity1 extends BaseActivity {
         }
 
         public void onComplete() {
-            IRefresh refresh = (IRefresh) getView().getView(R.id.rv);
+            IRefresh refresh = (IRefresh) getIView().getView(R.id.rv);
             if (null != refresh) {
                 refresh.loadComplete();
                 refresh.refreshComplete();
@@ -120,7 +120,7 @@ public class LvActivity1 extends BaseActivity {
 
         @Override
         public void onConvert(LvModel model, int action, Object extra) {
-            IRefresh refresh = (IRefresh) iView.getView(R.id.rv);
+            IRefresh refresh = (IRefresh) getIView().getView(R.id.rv);
             if (ACTION_BIND == action) {
                 refresh.enableRefresh(true);
                 refresh.enableLoad(true);

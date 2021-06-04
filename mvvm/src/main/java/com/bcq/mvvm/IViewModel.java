@@ -17,9 +17,8 @@ public interface IViewModel<M extends IModel> extends IRelease {
 
     void setIView(IView view);
 
-    IView getView();
+    IView getIView();
 
-    @Deprecated
     <V extends View> V getView(int id);
 
     void setModel(M model);

@@ -34,7 +34,7 @@ public class ActionWrapBar implements IWrapBar<ActionWrapBar> {
     private ActionBar inflateDefaultActionBar(BaseActivity activity) {
         ActionBar result = null;
         View defaultBarView = LayoutInflater.from(activity).inflate(R.layout.basis_action_bar_default, null, false);
-        View content = activity.getViewModel().getView().rootView();
+        View content = activity.getViewModel().getIView().rootView();
         if (content instanceof ViewGroup) {
             ((ViewGroup) content).addView(defaultBarView, 0);
             Toolbar toolbar = defaultBarView.findViewById(R.id.basis_toolbar);

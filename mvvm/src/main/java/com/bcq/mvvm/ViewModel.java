@@ -6,7 +6,7 @@ import android.view.View;
 
 public abstract class ViewModel<M extends IModel> implements IViewModel<M> {
     protected final static String TAG = "ViewModel";
-    protected IView iView;
+    private IView iView;
     private M model;
 
     @Deprecated
@@ -23,7 +23,7 @@ public abstract class ViewModel<M extends IModel> implements IViewModel<M> {
     }
 
     @Override
-    public IView getView() {
+    public IView getIView() {
         return iView;
     }
 
@@ -38,6 +38,7 @@ public abstract class ViewModel<M extends IModel> implements IViewModel<M> {
     }
 
     @Override
+    @Deprecated
     public M getModel() {
         return model;
     }

@@ -20,7 +20,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         return new ViewModel(UIKit.inflate(R.layout.activity_main)) {
             @Override
             public void onConvert(IModel model, int action, Object extra) {
-                iView.setOnClickListener(new int[]{
+                getIView().setOnClickListener(new int[]{
                         R.id.indicator,
                         R.id.recycle,
                         R.id.listview,

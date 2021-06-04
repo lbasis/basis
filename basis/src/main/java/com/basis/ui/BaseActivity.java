@@ -45,7 +45,7 @@ public abstract class BaseActivity<M extends IModel> extends AppCompatActivity i
         activity = this;
         UIStack.getInstance().add(activity);
         viewModel = setViewModel();
-        setContentView(viewModel.getView().rootView());
+        setContentView(viewModel.getIView().rootView());
         //init wapp
         wrapBar = new ActionWrapBar(activity).work();
         init();

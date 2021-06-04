@@ -75,7 +75,7 @@ public class PreviewActivity extends BaseActivity {
                         if (0 == position) {
                             preModel.rotation += 90;
                             Logger.e("rotation = " + preModel.rotation);
-                            if (null != getViewModel()) getViewModel().refreshByCmd(0,preModel.rotation);
+                            getViewModel().refreshByCmd(0, preModel.rotation);
                         }
                     }
                 })
@@ -98,7 +98,7 @@ public class PreviewActivity extends BaseActivity {
 
         @Override
         public void onConvert(PreModel model, int action, Object extra) {
-            PhotoView photoView = (PhotoView) iView.getView(R.id.iv_photo);
+            PhotoView photoView = (PhotoView) getIView().getView(R.id.iv_photo);
             if (ACTION_BIND == action) {
                 photoView.setRotationTo(model.rotation);
                 Picasso.get()

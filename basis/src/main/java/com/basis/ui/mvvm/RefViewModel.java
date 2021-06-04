@@ -31,7 +31,7 @@ import java.util.List;
  * @className: RefViewModel
  * @Description: 供列表显示页面使用的控制器
  */
-public class RefViewModel<ND, AD, VH extends IHolder> extends ViewModel<IModel> implements DataObserver /*, IRefVM<ND, IModel>*/ {
+public class RefViewModel<ND, AD, VH extends IHolder> extends ViewModel<IModel> implements DataObserver {
     private final String TAG = "RefreshViewModel";
     private IOperator<ND, AD, VH> operator;
     //适配器使用功能集合 泛型不能使用 T 接口返回类型有可能和适配器使用的不一致

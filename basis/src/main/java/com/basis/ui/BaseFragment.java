@@ -50,7 +50,7 @@ public abstract class BaseFragment<M extends IModel> extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         viewModel = setViewModel();
         Logger.e(TAG, "onCreateView");
-        return viewModel.getView().rootView();
+        return viewModel.getIView().rootView();
     }
 
     @Override
