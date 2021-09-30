@@ -11,6 +11,8 @@ import com.bcq.adapter.interfaces.IAdapte;
 import com.bcq.adapter.interfaces.IHolder;
 import com.bcq.net.net.NetRefresher;
 import com.bcq.net.net.Page;
+import com.bcq.net.wrapper.interfaces.IPage;
+import com.bcq.net.wrapper.interfaces.IResult;
 import com.bcq.refresh.IRefresh;
 import com.kit.UIKit;
 import com.kit.utils.Logger;
@@ -79,6 +81,19 @@ public class Controller<ND, AD, VH extends IHolder> extends NetRefresher<ND> imp
         });
     }
 
+    /**
+     * 重载：处理enable load
+     *
+     * @param result 结果集
+     */
+    @Override
+    public void onResult(IResult.ObjResult<List<ND>> result) {
+        super.onResult(result);
+        IPage page = result.getExtra();
+        boolean loadfull = null == page ? false : (page.getPage() >= page.getTotal());
+        holder.getRefresh().enableLoad(loadfull);
+    }
+
     @Override
     public void onAfter() {
         super.onAfter();
@@ -104,7 +119,9 @@ public class Controller<ND, AD, VH extends IHolder> extends NetRefresher<ND> imp
         List<AD> temp = operator.onPreSetData(adapterList);
         if (null != temp && !temp.isEmpty()) {
             if (null != holder) holder.showType(IRHolder.Type.show);
-            mAdapter.setData(temp, isRefresh);
+            // 此处已有缓存，不能再使用adapter中的缓存
+            // 否则：load more 前的数据会叠加到adapter的数据集中
+            mAdapter.setData(temp, true);
         } else {
             if (null != holder) holder.showType(IRHolder.Type.none);
         }

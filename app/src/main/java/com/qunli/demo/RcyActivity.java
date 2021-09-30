@@ -17,8 +17,10 @@ import com.bcq.adapter.recycle.RcyHolder;
 import com.bcq.net.Request;
 import com.bcq.net.api.Method;
 import com.bcq.net.net.ListCallback;
+import com.bcq.net.wrapper.interfaces.IPage;
 import com.bcq.net.wrapper.interfaces.IResult;
 import com.bcq.refresh.IRefresh;
+import com.kit.cache.GsonUtil;
 import com.kit.utils.ImageLoader;
 import com.kit.utils.KToast;
 import com.kit.utils.Logger;
@@ -85,8 +87,13 @@ public class RcyActivity extends BaseActivity {
                 int len = null == result.getResult() ? 0 : meizis.size();
                 Logger.e("AdapterActivity", "fetchGankMZ len = " + len);
                 mAdapter.setData(meizis, isRefresh);
-                if (result.getExtra()) {
+                IPage page = result.getExtra();
+                Logger.e("AdapterActivity", "fetchGankMZ page = " + GsonUtil.obj2Json(page));
+                if (null != page && page.getPage() >= page.getTotal()) {
                     mCurPage--;
+                    refresh.enableLoad(false);
+                }else {
+                    refresh.enableLoad(true);
                 }
             }
 

@@ -33,7 +33,7 @@ public class BApplication extends Application {
         Logger.setDebug(true);
         OkHelper.setDebug(true);
         if (null == parser) {
-            parser = new BqIParse();
+            parser = new BqParser();
         }
         OkHelper.get().setDefaultParser(parser);
         RefreshHelper.setDefaultStyle(Style.LineScale);
@@ -51,7 +51,7 @@ public class BApplication extends Application {
         return parser;
     }
 
-    public static class BqIParse implements IParse<Wrapper> {
+    public static class BqParser implements IParse<Wrapper> {
 
         @Override
         public Wrapper parse(int httpcode, String json) {

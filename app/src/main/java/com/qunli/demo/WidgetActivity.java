@@ -1,12 +1,16 @@
 package com.qunli.demo;
 
+import android.app.Dialog;
 import android.view.View;
 
 import com.basis.ui.BaseActivity;
+import com.basis.widget.BasisDialog;
+import com.basis.widget.EditorDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.kit.UIKit;
 import com.kit.utils.KToast;
 import com.kit.utils.Logger;
+import com.kit.wapper.IResultBack;
 
 public class WidgetActivity extends BaseActivity implements View.OnClickListener {
 
@@ -21,6 +25,9 @@ public class WidgetActivity extends BaseActivity implements View.OnClickListener
         getView(R.id.search).setOnClickListener(this);
         getView(R.id.snack).setOnClickListener(this);
         getView(R.id.icons).setOnClickListener(this);
+        getView(R.id.icons).setOnClickListener(this);
+        getView(R.id.botton_dialog).setOnClickListener(this);
+        getView(R.id.editor_dialog).setOnClickListener(this);
     }
 
     @Override
@@ -61,8 +68,25 @@ public class WidgetActivity extends BaseActivity implements View.OnClickListener
                             Logger.i(TAG, "onShown");
                         }
                     }).show();
-        }else if (R.id.icons == id) {
+        } else if (R.id.icons == id) {
             UIKit.startActivity(activity, IconActivity.class);
+        } else if (R.id.botton_dialog == id) {
+            BasisDialog.bottom(activity, R.layout.basis_dialog_editor, 30).show();
+//                    .setContentView(R.layout.basis_dialog_editor, 30)
+//                    .observeDismiss(new DialogInterface.OnDismissListener() {
+//                        @Override
+//                        public void onDismiss(DialogInterface dialogInterface) {
+//                            Logger.i(TAG, "onDismiss");
+//                        }
+//                    }).show();
+        } else if (R.id.editor_dialog == id) {
+            new EditorDialog(this, new
+                    IResultBack<String>() {
+                        @Override
+                        public void onResult(String s) {
+                            Logger.i(TAG, "onResult:" + s);
+                        }
+                    }).show();
         }
     }
 }

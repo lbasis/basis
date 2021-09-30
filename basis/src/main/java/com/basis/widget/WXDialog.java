@@ -2,26 +2,21 @@ package com.basis.widget;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.text.TextUtils;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
-import androidx.annotation.StringRes;
 
 import com.basis.R;
 import com.basis.percent.PercentLinearLayout;
 import com.basis.widget.interfaces.IDialog;
 import com.kit.utils.ResUtil;
-import com.kit.utils.ScreenUtil;
 
 /**
  * @author: BaiCQ
@@ -30,9 +25,7 @@ import com.kit.utils.ScreenUtil;
  * @Description: 最新标准微信风格弹框
  */
 public class WXDialog implements IDialog<WXDialog> {
-    private Activity context;
-    private View contentView;
-    private Dialog dialog;
+    private BasisDialog dialog;
     private TextView title;//标题
     private PercentLinearLayout llContent;//文本内容和添加view的父布局
     private TextView message;//内容
@@ -52,68 +45,17 @@ public class WXDialog implements IDialog<WXDialog> {
      * @param activity
      */
     public WXDialog(final Activity activity) {
-        this.context = activity;
-        View contentView = LayoutInflater.from(context).inflate(R.layout.basis_layout_wx, null);
-        wxstyle(contentView);
+        dialog = new BasisDialog(activity, R.style.Basis_Style_WX_Dialog, Gravity.CENTER)
+                .setContentView(R.layout.basis_layout_wx, 74, -1);
         initView();
     }
 
-    public WXDialog setCustomBuilder(Activity activity, CustomBuilder builder) {
-        this.context = activity;
-        View content = null == builder ? null : builder.onBuild();
-        wxstyle(content);
-        return this;
-    }
-
-    /**
-     * 构建WXstyle 风格的dialog
-     *
-     * @param content
-     */
-    protected void wxstyle(View content) {
-        if (null == content) {
-            throw new IllegalArgumentException("contentView can not null !");
-        }
-        contentView = content;
-        dialog = new Dialog(context, R.style.Basis_Style_WX_Dialog);
-        LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        dialog.addContentView(contentView, params);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK));
-        dialog.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BACK));
-        Window window = dialog.getWindow();
-        window.getDecorView().setPadding(0, 0, 0, 0);
-        // 设置窗口大小和位置
-        WindowManager.LayoutParams wl = window.getAttributes();
-        wl.x = 0;
-        wl.y = 0;
-        wl.width = (int) (ScreenUtil.getScreemWidth() * 0.74);
-        dialog.onWindowAttributesChanged(wl);
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                if (null != dismissListener) dismissListener.onDismiss(dialog);
-            }
-        });
-        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                if (KeyEvent.KEYCODE_BACK == keyCode) {
-                    if (null != dismissListener) dismissListener.onDismiss(dialog);
-                }
-                //back 只是回调 不做额外处理
-                return false;
-            }
-        });
-    }
-
     private void initView() {
-        if (null == contentView) return;
-        confirm = contentView.findViewById(R.id.btn_confirm);
-        cancel = contentView.findViewById(R.id.btn_cancel);
-        llContent = (PercentLinearLayout) contentView.findViewById(R.id.ll_content);
-        message = (TextView) contentView.findViewById(R.id.tv_message);
-        title = (TextView) contentView.findViewById(R.id.tv_title);
+        confirm = dialog.getView(R.id.btn_confirm);
+        cancel = dialog.getView(R.id.btn_cancel);
+        llContent = dialog.getView(R.id.ll_content);
+        message = dialog.getView(R.id.tv_message);
+        title = dialog.getView(R.id.tv_title);
         title.setVisibility(View.GONE);
         confirm.setVisibility(View.GONE);
         cancel.setVisibility(View.GONE);
@@ -144,20 +86,15 @@ public class WXDialog implements IDialog<WXDialog> {
         return this;
     }
 
-    @SuppressLint("ResourceType")
     @Override
-    public WXDialog setTitle(@StringRes int titleRes) {
-        if (titleRes > 0) {
+    public WXDialog setTitle(String title) {
+        if (!TextUtils.isEmpty(title)) {
             this.title.setVisibility(View.VISIBLE);
-            this.title.setText(titleRes);
+            this.title.setText(title);
         }
         return this;
     }
 
-    @Override
-    public WXDialog setMessage(@StringRes int msgId) {
-        return setMessage(ResUtil.getString(msgId));
-    }
 
     @Override
     public WXDialog setMessage(CharSequence message) {
@@ -165,31 +102,31 @@ public class WXDialog implements IDialog<WXDialog> {
         return this;
     }
 
+
     @Override
-    public WXDialog setSureButton(@StringRes int text, // 按钮文本
-                                  View.OnClickListener onclick) {
-        return setSureButton(text, -1, -1, true, onclick);
+    public WXDialog setSureButton(String text, View.OnClickListener onclick) {
+        return setSureButton(text, -1, -1, onclick, true);
     }
 
     @Override
-    public WXDialog setSureButton(@StringRes int text, // 按钮文本
+    public WXDialog setSureButton(String text, // 按钮文本
                                   @ColorRes int color, // 文本颜色
-                                  @DrawableRes int bg, // 按钮背景
-                                  View.OnClickListener onclick) {
-        return setSureButton(text, color, bg, true, onclick);
+                                  @DrawableRes int btnBg, // 按钮背景
+                                  final View.OnClickListener onclick) {
+        return setSureButton(text, color, btnBg, onclick, true);
     }
 
     @SuppressLint("ResourceType")
     @Override
-    public WXDialog setSureButton(@StringRes int text, // 按钮文本
+    public WXDialog setSureButton(String text, // 按钮文本
                                   @ColorRes int color, // 文本颜色
-                                  @DrawableRes int bg, // 按钮背景
-                                  boolean clickDismiss, // 点击是否消失 处理一些特殊需求 点击确定按钮后弹框不消失
-                                  final View.OnClickListener onclick) {
+                                  @DrawableRes int btnBg, // 按钮背景
+                                  final View.OnClickListener onclick,
+                                  boolean clickDismiss) { // 点击是否消失 处理一些特殊需求 点击确定按钮后弹框不消失
         confirm.setVisibility(View.VISIBLE);
         if (color > 0) confirm.setTextColor(ResUtil.getColor(color));
-        if (text > 0) confirm.setText(text);
-        if (bg > 0) confirm.setBackground(ResUtil.getDrawable(bg));
+        if (!TextUtils.isEmpty(text)) confirm.setText(text);
+        if (btnBg > 0) confirm.setBackground(ResUtil.getDrawable(btnBg));
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -201,19 +138,19 @@ public class WXDialog implements IDialog<WXDialog> {
     }
 
     @Override
-    public WXDialog setCancelButton(@StringRes int text) {
+    public WXDialog setCancelButton(String text) {
         return setCancelButton(text, -1, -1);
     }
 
     @SuppressLint("ResourceType")
     @Override
-    public WXDialog setCancelButton(@StringRes int text, // 按钮文本
-                                    @ColorRes int color, // 文本颜色
-                                    @DrawableRes int bg) {// 按钮背景
+    public WXDialog setCancelButton(String text, // 按钮文本
+                                    @ColorInt int color, // 文本颜色
+                                    @DrawableRes int btnBg) {// 按钮背景
         cancel.setVisibility(View.VISIBLE);
+        if (!TextUtils.isEmpty(text)) cancel.setText(text);
         if (color > 0) cancel.setTextColor(ResUtil.getColor(color));
-        if (text > 0) cancel.setText(text);
-        if (bg > 0) cancel.setBackground(ResUtil.getDrawable(bg));
+        if (btnBg > 0) cancel.setBackground(ResUtil.getDrawable(btnBg));
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -247,34 +184,40 @@ public class WXDialog implements IDialog<WXDialog> {
 
     @Override
     public WXDialog defalutStyle(boolean title, View.OnClickListener sureClick) {
-        return title ? setTitle(R.string.basis_tip)
-                .setCancelButton(R.string.basis_cancle)
-                .setSureButton(R.string.basis_ok, sureClick)
-                : setCancelButton(R.string.basis_cancle)
-                .setSureButton(R.string.basis_ok, sureClick);
+        return title ? setTitle(ResUtil.getString(R.string.basis_tip))
+                .setCancelButton(ResUtil.getString(R.string.basis_cancle))
+                .setSureButton(ResUtil.getString(R.string.basis_ok), sureClick)
+                : setCancelButton(ResUtil.getString(R.string.basis_cancle))
+                .setSureButton(ResUtil.getString(R.string.basis_ok), sureClick);
     }
 
     @Override
     public WXDialog cancelStyle(boolean title) {
-        return title ? setTitle(R.string.basis_tip)
-                .setCancelButton(R.string.basis_cancle)
-                : setCancelButton(R.string.basis_cancle);
+        return title ? setTitle(ResUtil.getString(R.string.basis_tip))
+                .setCancelButton(ResUtil.getString(R.string.basis_cancle))
+                : setCancelButton(ResUtil.getString(R.string.basis_cancle));
     }
 
     @Override
     public WXDialog sureStyle(boolean title, View.OnClickListener sureClick) {
-        return title ? setTitle(R.string.basis_tip)
-                .setSureButton(R.string.basis_ok, sureClick)
-                : setSureButton(R.string.basis_ok, sureClick);
+        return title ? setTitle(ResUtil.getString(R.string.basis_tip))
+                .setSureButton(ResUtil.getString(R.string.basis_ok), sureClick)
+                : setSureButton(ResUtil.getString(R.string.basis_ok), sureClick);
     }
 
     @Override
     public WXDialog deleteStyle(boolean title, View.OnClickListener sureClick) {
-        return title ? setTitle(R.string.basis_tip)
-                .setCancelButton(R.string.basis_cancle)
-                .setSureButton(R.string.basis_delete, android.R.color.white, R.drawable.selector_red_solid, sureClick)
-                : setCancelButton(R.string.basis_cancle)
-                .setSureButton(R.string.basis_delete, android.R.color.white, R.drawable.selector_red_solid, sureClick);
+        return title ? setTitle(ResUtil.getString(R.string.basis_tip))
+                .setCancelButton(ResUtil.getString(R.string.basis_cancle))
+                .setSureButton(ResUtil.getString(R.string.basis_delete),
+                        android.R.color.white,
+                        R.drawable.selector_red_solid,
+                        sureClick)
+                : setCancelButton(ResUtil.getString(R.string.basis_cancle))
+                .setSureButton(ResUtil.getString(R.string.basis_delete),
+                        android.R.color.white,
+                        R.drawable.selector_red_solid,
+                        sureClick);
     }
 
     /********************* 封装的工具类 **************************/
