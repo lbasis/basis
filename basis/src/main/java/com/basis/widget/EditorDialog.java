@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.basis.R;
+import com.basis.dialog.BasisDialog;
 import com.kit.UIKit;
 import com.kit.wapper.IResultBack;
 

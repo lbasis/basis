@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.basis.ui.BaseActivity;
 import com.basis.net.LoadTag;
-import com.basis.widget.WXDialog;
+import com.basis.dialog.WXDialog;
 import com.bcq.net.wrapper.Wrapper;
 import com.bcq.net.wrapper.interfaces.IParse;
 import com.bcq.net.wrapper.interfaces.IResult;

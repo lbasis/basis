@@ -5,10 +5,12 @@ import android.view.View;
 
 import com.basis.BroadcastUtil;
 import com.basis.PreviewActivity;
+import com.basis.dialog.WXBuilder;
 import com.basis.ui.BaseActivity;
 import com.basis.widget.ActionWrapBar;
-import com.basis.widget.BasisDialog;
-import com.basis.widget.WXDialog;
+import com.basis.dialog.BasisDialog;
+import com.basis.dialog.WFDialog;
+import com.basis.dialog.WXDialog;
 import com.kit.CommUtil;
 import com.kit.UIKit;
 import com.kit.utils.Logger;
@@ -54,22 +56,31 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     @Override
                     public void onItemSelected(int position) {
                         if (0 == position) {
-                            new WXDialog(activity)
+                            new WXBuilder(activity)
+                                    .setEnableTitle(true)
                                     .setMessage("默认风格！")
-                                    .defalutStyle(true, null).show();
-                            new WXDialog(activity)
+                                    .defaultsStyle(null)
+                                    .buildFD()
+                                    .show();
+                            new WXBuilder(activity)
+                                    .setEnableTitle(true)
                                     .setMessage("取消风格！")
-                                    .cancelStyle(true).show();
-                            new WXDialog(activity)
+                                    .cancelStyle()
+                                    .buildFD()
+                                    .show();
+                            new WXBuilder(activity)
+                                    .setEnableTitle(true)
                                     .setMessage("确定风格！")
-                                    .sureStyle(true, null).show();
-                            new WXDialog(activity)
+                                    .sureStyle(null)
+                                    .buildFD()
+                                    .show();
+                            new WXBuilder(activity)
+                                    .setEnableTitle(true)
                                     .setMessage("删除风格！")
-                                    .deleteStyle(true, null).show();
-//                            new BottomDialog(activity)
-//                                    .setContentView(R.layout.layout_bottom_menu, 40)
-//                                    .show();
-//                            BasisDialog.bottom(activity, R.layout.layout_bottom_menu, 40).show();
+                                    .deleteStyle(null)
+                                    .buildFD()
+                                    .show();
+                            BasisDialog.bottom(activity, R.layout.layout_bottom_menu, 40).show();
                             BasisDialog.center(activity, R.layout.layout_bottom_menu).show();
                         } else if (1 == position) {
 

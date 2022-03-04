@@ -1,10 +1,9 @@
 package com.qunli.demo;
 
-import android.app.Dialog;
 import android.view.View;
 
 import com.basis.ui.BaseActivity;
-import com.basis.widget.BasisDialog;
+import com.basis.dialog.BasisDialog;
 import com.basis.widget.EditorDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.kit.UIKit;

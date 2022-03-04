@@ -1,4 +1,4 @@
-package com.basis.widget;
+package com.basis.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -60,16 +60,15 @@ public class BasisDialog extends Dialog {
         setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                Logger.e(TAG, "onDismiss");
+                Logger.i(TAG, "onDismiss");
                 if (null != listener) listener.onDismiss(dialog);
             }
         });
         return this;
     }
 
-    public BasisDialog observeDismiss(@Nullable OnDismissListener listener) {
+    public void observeDismiss(@Nullable OnDismissListener listener) {
         this.listener = listener;
-        return this;
     }
 
     public View getContentView() {
