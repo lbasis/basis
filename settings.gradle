@@ -1,3 +1,11 @@
-rootProject.name = "Demo"
+rootProject.name = "BasisDemo"
 include ':app'
-include ':basis','icon'
+include ':basis'
+
+include ':demo'
+// 包含 refresh adapter net basis
+include ':base'
+
+
+include ':icon'
+
